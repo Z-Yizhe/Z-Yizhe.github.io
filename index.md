@@ -6,4 +6,4 @@ Z's Mathmetics Notes
 2:Numerical Methods
 
 
-3:ODEs
+3:[ODEs](./ordinary-differential-equations/)

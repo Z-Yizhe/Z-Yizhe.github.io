@@ -13,7 +13,9 @@ $$
 若存在函数f，使得：
 
 $
-\frac{df}{dx}=P \frac{df}{dy}=Q
+\frac{\partial f}{\partial x}=P(x,y),
+\qquad
+\frac{\partial f}{\partial y}=Q(x,y),
 $
 
-则称其为恰当方程
+则称其为**恰当方程**

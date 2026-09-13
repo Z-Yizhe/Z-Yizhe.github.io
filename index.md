@@ -1,6 +1,6 @@
 Z's Mathmetics Notes
 
-1:Mathmetical analysis
+1:[Mathmetical analysis](./Mathmetical-Analysis/)
 
 
 2:[Numerical Methods](./Numerical-Methods/)

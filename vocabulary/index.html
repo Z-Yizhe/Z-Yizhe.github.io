@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>英语记词本 | Z's Notes</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#17212b;background:#f5f8f7}*{box-sizing:border-box}
+body{margin:0}main{max-width:780px;margin:24px auto;padding:0 18px 48px}header{background:linear-gradient(110deg,#00ad8a,#40cb82);color:white;padding:22px max(18px,calc((100vw - 744px)/2));}
+header a{color:white}h1{margin:6px 0;font-size:1.65rem}p{line-height:1.6}.panel{background:white;padding:24px;border-radius:18px;box-shadow:0 5px 22px #0b2c2310;margin:18px 0}
+.muted{color:#657377;font-size:.9rem}.track{background:#d9e7e2;height:9px;border-radius:9px;overflow:hidden}.fill{height:100%;background:#00b38d;width:0%;transition:width .2s}
+.controls{display:flex;gap:10px;flex-wrap:wrap}button{cursor:pointer;border:1px solid #b9d0c8;background:white;border-radius:12px;padding:10px 15px;font:inherit;color:#13372d}
+button.primary{background:#00ad8a;color:white;border-color:#00ad8a}button:focus-visible{outline:3px solid #176ac9;outline-offset:2px}button.active{background:#d8f6ec;border-color:#00ad8a}
+.card{text-align:center;background:#f5faf8;border-radius:15px;padding:28px 14px;margin:16px 0;min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.word{font-size:clamp(1.8rem,7vw,2.7rem);font-weight:700;overflow-wrap:anywhere}.meaning{font-size:1.25rem;font-weight:600}.example{margin:6px 0}.actions{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap}
+.words{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.words button{font-size:.9rem;padding:8px 10px}
+.hidden{display:none!important}.testInput{padding:12px;border:1px solid #a6b9b2;border-radius:10px;width:min(100%,430px);font:inherit}
+footer{font-size:.8rem;color:#637873;text-align:center}label{display:flex;align-items:center;gap:8px}input[type=checkbox]{accent-color:#00ad8a;width:18px;height:18px}
+</style></head><body>
+<header><a href="../">← 返回学习主页</a><h1>📖 英语记词本</h1><div>单词记忆 · 第一组（11 词）</div></header>
+<main><section class="panel">
+<div class="controls" style="justify-content:space-between;align-items:center"><strong id="count">已掌握 0 / 11</strong><span id="ordinal" class="muted"></span></div>
+<div class="track" style="margin:12px 0"><div id="bar" class="fill"></div></div>
+<div class="controls"><button id="learnBtn" class="active">学习模式</button><button id="testBtn">默写测试</button><button id="reviewBtn">只看未掌握</button></div>
+<div class="card"><div id="word" class="word"></div><div id="answer" class="hidden"><p id="meaning" class="meaning"></p><p id="example" class="example"></p><p id="translation" class="muted"></p><p id="tip" class="muted"></p></div>
+<div id="revealBox" class="hidden"><p class="muted">先想一想中文释义</p><button id="reveal" class="primary">查看答案</button></div></div>
+<div class="actions"><button id="prev">← 上一个</button><label><input type="checkbox" id="mastered"> 已掌握</label><button id="next" class="primary">下一个 →</button></div>
+</section><section class="panel"><strong>全部单词</strong><div id="wordlist" class="words"></div></section>
+<section class="panel"><strong>学习进度</strong><p class="muted">掌握记录保存在当前浏览器的本地存储中。更换设备或清理浏览器数据不会自动同步。</p>
+<div class="controls"><button id="export">导出进度</button><button id="import">导入进度</button><input id="file" type="file" accept=".json,application/json" class="hidden"><button id="reset">清除掌握标记</button></div></section>
+<footer>由 GitHub Pages 托管 · 可在手机和电脑浏览器中使用</footer></main>
+<script>
+const words=[["innocuous","adj.","无害的；无冒犯之意的","The comment seemed innocuous.","这条评论似乎没有恶意。","in-（否定）+ noc（伤害）"],["dubious","adj.","可疑的；不确定的；靠不住的","I am dubious about his explanation.","我对他的解释持怀疑态度。","联想 doubt（怀疑）"],["undermine","v.","逐渐削弱；破坏","Stress can undermine your confidence.","压力会削弱你的自信。","under + mine：从下方挖空"],["defensible","adj.","可辩护的；有正当理由的","Her decision was defensible.","她的决定有合理依据。","defend + -ible"],["obviate","v.","消除；使不必要","This method obviates the need for further tests.","这种方法使进一步测试不再必要。","obviate the need for：使……不再必要"],["meticulous","adj.","一丝不苟的；极其细致的","She is meticulous in her research.","她做研究非常严谨细致。","meticulous attention to detail"],["counterproductive","adj.","适得其反的；事与愿违的","Studying without rest can be counterproductive.","不休息地学习可能适得其反。","counter-（相反）+ productive"],["invalidate","v.","使无效；证明错误","The evidence may invalidate the theory.","这一证据可能推翻该理论。","in-（否定）+ valid（有效的）"],["elusive","adj.","难以捉摸的；难以找到的","The solution remains elusive.","解决办法仍然难以找到。","an elusive goal：难以实现的目标"],["indisputable","adj.","无可争辩的；毋庸置疑的","This is an indisputable fact.","这是无可争辩的事实。","in- + disputable（可争论的）"],["indiscernible","adj.","难以辨认的；无法察觉的","The difference is almost indiscernible.","这种差别几乎无法察觉。","in- + discern（辨别）+ -ible"]];
+const key="z-yizhe-vocabulary-v1";let saved=[];try{const v=JSON.parse(localStorage.getItem(key)||"[]");if(Array.isArray(v))saved=v.filter(x=>Number.isInteger(x)&&x>=0&&x<words.length)}catch{}
+let mastered=new Set(saved),index=0,mode="learn",unlearned=false,revealed=false;
+const $=id=>document.getElementById(id);
+function persist(){try{localStorage.setItem(key,JSON.stringify([...mastered]))}catch{}}
+function available(){return words.map((_,i)=>i).filter(i=>!unlearned||!mastered.has(i))}
+function jump(i){index=i;revealed=false;render()}
+function shift(delta){const a=available();if(!a.length)return;if(!a.includes(index))index=a[0];else index=a[(a.indexOf(index)+delta+a.length)%a.length];revealed=false;render()}
+function render(){const a=available();if(a.length&&!a.includes(index))index=a[0];
+$('count').textContent="已掌握 "+mastered.size+" / "+words.length;$('bar').style.width=(mastered.size/words.length*100)+"%";
+$('ordinal').textContent=a.length?"第 "+(a.indexOf(index)+1)+" / "+a.length+" 词":"全部已掌握 🎉";
+$('learnBtn').classList.toggle("active",mode==="learn");$('testBtn').classList.toggle("active",mode==="test");$('reviewBtn').classList.toggle("active",unlearned);
+if(!a.length){$('word').textContent="全部已掌握！";$('answer').classList.add("hidden");$('revealBox').classList.add("hidden");$('mastered').checked=false;$('mastered').disabled=true}
+else{const w=words[index];$('word').textContent=w[0];$('meaning').textContent=w[1]+" "+w[2];$('example').textContent=w[3];$('translation').textContent=w[4];$('tip').textContent="💡 "+w[5];const show=mode==="learn"||revealed;$('answer').classList.toggle("hidden",!show);$('revealBox').classList.toggle("hidden",show);$('mastered').disabled=false;$('mastered').checked=mastered.has(index)}
+$('wordlist').replaceChildren(...words.map((w,i)=>{const b=document.createElement("button");b.textContent=(mastered.has(i)?"✓ ":"")+w[0];b.className=i===index?"active":"";b.onclick=()=>{if(unlearned&&mastered.has(i))unlearned=false;jump(i)};return b}));}
+$('learnBtn').onclick=()=>{mode="learn";revealed=false;render()};$('testBtn').onclick=()=>{mode="test";revealed=false;render()};
+$('reviewBtn').onclick=()=>{unlearned=!unlearned;revealed=false;render()};$('reveal').onclick=()=>{revealed=true;render()};
+$('prev').onclick=()=>shift(-1);$('next').onclick=()=>shift(1);
+$('mastered').onchange=e=>{if(e.target.checked)mastered.add(index);else mastered.delete(index);persist();render()};
+$('export').onclick=()=>{const blob=new Blob([JSON.stringify({version:1,mastered:[...mastered]},null,2)],{type:"application/json"});const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download="vocabulary-progress.json";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)};
+$('import').onclick=()=>$('file').click();$('file').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const o=JSON.parse(await f.text());if(!Array.isArray(o.mastered)||!o.mastered.every(i=>Number.isInteger(i)&&i>=0&&i<words.length))throw Error("invalid");mastered=new Set(o.mastered);persist();render();alert("进度导入成功")}catch{alert("进度文件格式有误")}e.target.value=""};
+$('reset').onclick=()=>{if(confirm("确定清除所有已掌握标记吗？")){mastered.clear();persist();render()}};render();
+</script></body></html>

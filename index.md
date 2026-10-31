@@ -15,3 +15,5 @@ Z's Mathmetics Notes
 ## 最新数值方法笔记
 
 [2026-10-27：第三讲——三次样条、三角插值、FFT、Padé、最小二乘与 QR 分解](./Numerical%20Methods/lecture3-2026-10-27.html)
+
+[2026-10-31：第四讲——数值微分完整复习与 KP 证明模板](./Numerical%20Methods/lecture4-2026-10-31.html)
